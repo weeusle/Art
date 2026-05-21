@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Плейбук продаж · ARTIKA Нижний Новгород</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#01a046; --green-d:#018539; --green-soft:#e8f6ee; --green-line:#bfe6cd;
+    --ink:#1d1c1c; --muted:#6a6f6c; --line:#ededed; --panel:#f6f7f6;
+    --red:#c80033; --red-soft:#fdeaef; --red-line:#f3c9d5;
+    --bg:#ffffff;
+    --r-btn:30px; --r-card:18px;
+    --font:'Montserrat',-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font); font-size:16px; line-height:1.62; -webkit-font-smoothing:antialiased;}
+
+  .wrap{display:flex; min-height:100vh;}
+
+  /* sidebar */
+  .nav{width:280px; flex:0 0 280px; background:#fff; border-right:1px solid var(--line); position:sticky; top:0; height:100vh; overflow-y:auto; padding:26px 0;}
+  .brand{padding:0 24px 20px; margin-bottom:14px; border-bottom:1px solid var(--line);}
+  .brand b{font-size:22px; font-weight:800; letter-spacing:3px; color:var(--ink);}
+  .brand b span{color:var(--green);}
+  .brand small{display:block; color:var(--muted); font-size:12px; margin-top:5px; font-weight:500; letter-spacing:.2px;}
+  .nav a{display:flex; align-items:center; gap:11px; padding:11px 24px; color:#454a47; text-decoration:none; font-size:14.5px; font-weight:500; cursor:pointer; border-left:3px solid transparent;}
+  .nav a:hover{background:var(--panel); color:var(--ink);}
+  .nav a.active{background:var(--green-soft); color:var(--green-d); border-left-color:var(--green); font-weight:600;}
+  .nav a .num{flex:0 0 24px; height:24px; border-radius:50%; background:#eef0ee; color:#8a908c; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600;}
+  .nav a.active .num{background:var(--green); color:#fff;}
+  .nav a.done .num{background:var(--green); color:#fff;}
+  .nav a.done .num span{display:none;}
+  .nav a.done .num::after{content:"✓";}
+  .progress{padding:16px 24px 4px; font-size:12.5px; color:var(--muted); font-weight:500;}
+  .progress b{color:var(--green-d);}
+
+  /* content */
+  .main{flex:1; min-width:0;}
+  .inner{max-width:860px; padding:54px 60px 100px;}
+  .section{display:none;} .section.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+
+  .kicker{color:var(--green); font-weight:700; font-size:12px; letter-spacing:2px; text-transform:uppercase;}
+  h1{font-size:33px; font-weight:800; color:var(--ink); margin:8px 0 6px; line-height:1.18; letter-spacing:-.3px;}
+  h2{font-size:21px; font-weight:700; color:var(--ink); margin:36px 0 14px; padding-bottom:9px; position:relative;}
+  h2::after{content:""; position:absolute; left:0; bottom:0; width:46px; height:3px; background:var(--green); border-radius:3px;}
+  h3{font-size:16.5px; font-weight:700; color:var(--ink); margin:24px 0 8px;}
+  p{margin:11px 0;} ul{margin:11px 0; padding-left:22px;} li{margin:7px 0;}
+  .lead{color:var(--muted); font-size:17px; font-weight:400;}
+  strong{color:var(--ink); font-weight:600;}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--r-card); padding:17px 20px; margin:15px 0;}
+  .quote{border-left:4px solid var(--green); background:var(--green-soft); border-radius:0 14px 14px 0; padding:14px 18px; margin:15px 0; font-style:italic; color:#2a3530;}
+  .good,.bad{border-radius:14px; padding:13px 18px; margin:11px 0;}
+  .good{background:var(--green-soft); border:1px solid var(--green-line);}
+  .bad{background:var(--red-soft); border:1px solid var(--red-line);}
+  .good .tag,.bad .tag{font-weight:700; font-size:11.5px; letter-spacing:.6px; text-transform:uppercase; display:block; margin-bottom:5px;}
+  .good .tag{color:var(--green-d);} .bad .tag{color:var(--red);}
+  .flow{background:var(--green-soft); border:1px solid var(--green-line); color:#23332b; padding:15px 18px; border-radius:14px; font-size:14px; font-weight:600; overflow-x:auto; margin:15px 0; letter-spacing:.2px;}
+  table{border-collapse:collapse; width:100%; margin:15px 0; font-size:14.5px;}
+  th,td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+  th{background:var(--panel); color:var(--ink); font-weight:700;}
+  .pill{display:inline-block; background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:4px 13px; font-size:13px; margin:3px 4px;}
+
+  .btn{background:var(--green); color:#fff; border:none; border-radius:var(--r-btn); padding:13px 30px; font-size:15px; font-weight:600; font-family:var(--font); cursor:pointer; transition:.15s;}
+  .btn:hover{background:var(--green-d);}
+  .btn.ghost{background:#fff; color:var(--green-d); border:1.5px solid var(--green-line);}
+  .btn.ghost:hover{background:var(--green-soft);}
+
+  .quizcta{margin:42px 0 0; padding:24px; background:var(--panel); border:1px solid var(--line); border-radius:var(--r-card); text-align:center;}
+  .quizcta p{margin:0 0 14px; color:var(--muted); font-size:14.5px;}
+
+  /* quiz screen (separate page) */
+  .quizview{display:none;}
+  .quizview.active{display:block; animation:fade .25s ease;}
+  .backlink{display:inline-flex; align-items:center; gap:6px; color:var(--green-d); font-weight:600; font-size:14px; text-decoration:none; cursor:pointer; margin-bottom:18px;}
+  .quiz{margin:8px 0 0;}
+  .warn{background:#fff8e6; border:1px solid #f0e0a8; border-radius:12px; padding:11px 16px; color:#7a6410; font-size:14px; margin:10px 0 22px;}
+  .q{margin:0 0 18px; padding:20px 22px; border:1px solid var(--line); border-radius:var(--r-card);}
+  .q-text{font-weight:600; margin:0 0 12px;}
+  .opt{display:block; padding:11px 15px; border:1px solid var(--line); border-radius:12px; margin:8px 0; cursor:pointer; transition:.12s;}
+  .opt:hover{border-color:var(--green-line); background:var(--green-soft);}
+  .opt input{margin-right:10px; accent-color:var(--green);}
+  .opt.correct{background:var(--green-soft); border-color:var(--green);}
+  .opt.wrong{background:var(--red-soft); border-color:var(--red);}
+  .explain{display:none; font-size:14px; color:var(--muted); margin:10px 0 0; padding-left:14px; border-left:3px solid var(--green);}
+  .explain.show{display:block;}
+  .result{font-weight:700; margin:6px 0 18px; font-size:17px;}
+  .result.ok{color:var(--green-d);} .result.no{color:var(--red);}
+  .afterbtns{display:none; gap:12px; flex-wrap:wrap;}
+  .afterbtns.show{display:flex;}
+
+  .footer{margin-top:46px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:13px;}
+
+  .menu-btn{display:none;}
+  @media(max-width:880px){
+    .wrap{flex-direction:column;}
+    .nav{position:fixed; left:0; top:0; height:100vh; transform:translateX(-100%); transition:.25s; z-index:50; box-shadow:2px 0 22px rgba(0,0,0,.18);}
+    .nav.open{transform:none;}
+    .inner{padding:74px 20px 80px;}
+    h1{font-size:26px;} h2{font-size:19px;}
+    .menu-btn{display:inline-flex; align-items:center; gap:8px; position:fixed; top:14px; left:14px; z-index:60; background:var(--green); color:#fff; border:none; border-radius:24px; padding:10px 16px; font-size:14px; font-weight:600; font-family:var(--font);}
+    .backdrop{display:none; position:fixed; inset:0; background:rgba(0,0,0,.3); z-index:40;}
+    .backdrop.show{display:block;}
+  }
+</style>
+</head>
+<body>
+<button class="menu-btn" onclick="toggleNav()">☰ Разделы</button>
+<div class="backdrop" id="backdrop" onclick="toggleNav()"></div>
+<div class="wrap">
+  <nav class="nav" id="nav">
+    <div class="brand"><b>ART<span>I</span>KA</b><small>Плейбук продаж · салон в Нижнем Новгороде</small></div>
+    <div id="navlinks"></div>
+    <div class="progress">Пройдено тестов: <b><span id="pcount">0</span>/10</b></div>
+  </nav>
+
+  <main class="main">
+    <div class="inner">
+
+    <div id="content">
+      <!-- 1 -->
+      <section class="section" data-i="1">
+        <div class="kicker">Раздел 1</div>
+        <h1>Установка и наш козырь</h1>
+        <p class="lead">С чего начинается сильный менеджер: понимать, что мы на самом деле продаём, и за счёт чего отстраиваемся.</p>
+
+        <h2>Что мы продаём</h2>
+        <p><strong>Мы не продаём мебель. Мы продаём спокойствие:</strong> «для меня всё сделают красиво, удобно и без ошибок».</p>
+        <p>Клиент приходит не за столом. Он хочет, чтобы было красиво, удобно, чтобы <strong>не ошибиться и не переделывать</strong>. Задача менеджера — не «показать варианты», а снять неопределённость и довести до решения.</p>
+        <div class="bad"><span class="tag">✕ Слабо</span>«Мы делаем мебель на заказ»</div>
+        <div class="good"><span class="tag">✓ Сильно</span>«Мы делаем мебель под ваш образ жизни и пространство — не нужно подгонять себя под готовые решения»</div>
+
+        <h2>Сегмент</h2>
+        <p>Средний / средний+. Не эконом, не премиум.</p>
+        <div class="bad"><span class="tag">✕ Слабо</span>«У нас недорого»</div>
+        <div class="good"><span class="tag">✓ Сильно</span>«Оптимальный баланс цены и качества — без переплаты за бренд»</div>
+
+        <h2>3 эмоциональных триггера</h2>
+        <p>На них давит вся продажа:</p>
+        <ul>
+          <li><strong>Индивидуальность</strong> — «делается под вас, такого больше ни у кого».</li>
+          <li><strong>Простота</strong> — «мы всё сделаем за вас, вам не нужно ни о чём думать».</li>
+          <li><strong>Безопасность</strong> — «вы не ошибётесь, мы рядом и всё проконтролируем».</li>
+        </ul>
+
+        <h2>Наш главный козырь</h2>
+        <p><strong>Мы — собственная фабрика в Чебоксарах, а не перепродажа привозного.</strong> Производство — в Поволжье, рядом; в Нижнем у нас салон, замер и доставка.</p>
+        <ul>
+          <li>Настоящая фабрика, а не «гаражная сборка» — можно приехать и посмотреть (рядом, соседний регион).</li>
+          <li>Своё производство = нет наценки посредников + контроль качества от заказа до отгрузки.</li>
+          <li>Замер и доставка по Нижнему и области — везём из соседнего региона, а не с другого конца страны.</li>
+          <li>С 2019 года, 48 салонов в 20 регионах, 4 000+ изделий — за нас говорит масштаб.</li>
+        </ul>
+        <div class="quote">«У нас собственная фабрика в Чебоксарах — это рядом, Поволжье. Вы не переплачиваете посредникам, мебель делаем сами и контролируем качество. В Нижнем — наш салон, здесь же замер и доставка, всё локально.»</div>
+
+        <div class="quizcta"><p>Готовы проверить себя? Текст раздела на время теста скрывается.</p><button class="btn" onclick="startQuiz(1)">Пройти тест по разделу →</button></div>
+      </section>
+
+      <!-- 2 -->
+      <section class="section" data-i="2">
+        <div class="kicker">Раздел 2</div>
+        <h1>Клиент: типы и страхи</h1>
+        <p class="lead">К каждому типу — свой подход. Вся продажа сводится к снятию четырёх страхов.</p>
+
+        <h2>3 типа клиента</h2>
+        <table>
+          <tr><th>Тип</th><th>Кто это</th><th>Как продавать</th></tr>
+          <tr><td><strong>«Ремонтник»</strong></td><td>Делает ремонт, перегружен выбором, боится ошибиться</td><td>Упрощать и вести за руку</td></tr>
+          <tr><td><strong>«Сравниватель»</strong></td><td>Уже был у других, ищет лучшее</td><td>Объяснять разницу: качество, размерный ряд, материалы, что входит в цену</td></tr>
+          <tr><td><strong>«Вдохновлённый»</strong></td><td>Пришёл с Pinterest/Instagram, есть картинка</td><td>Визуал: фото готовых проектов, образцы. «Реализуем вашу идею под ваш размер»</td></tr>
+        </table>
+
+        <h2>4 страха любого клиента</h2>
+        <p>Вся продажа = снятие этих страхов:</p>
+        <ul>
+          <li>«Меня обманут / переплачу»</li>
+          <li>«Будет не так, как на картинке»</li>
+          <li>«Сорвут сроки»</li>
+          <li>«Цена вырастет по ходу»</li>
+        </ul>
+        <div class="card"><strong>Правило тона:</strong> отвечаем клиенту так, как ответили бы близкому человеку — честно, по-человечески, без впаривания.</div>
+
+        <div class="quizcta"><p>Готовы проверить себя? Текст раздела на время теста скрывается.</p><button class="btn" onclick="startQuiz(2)">Пройти тест по разделу →</button></div>
+      </section>
+
+      <!-- 3 -->
+      <section class="section" data-i="3">
+        <div class="kicker">Раздел 3</div>
+        <h1>Воронка и правила игры</h1>
+        <p class="lead">Клиент всегда движется вперёд, а не «зависает».</p>
+        <div class="flow">Контакт → Диагностика → Прогрев примерами → Ценность → Цена → Закрытие на шаг</div>
+
+        <h2>Правила для всех каналов</h2>
+        <ul>
+          <li><strong>Скорость решает.</strong> Новый лид — ответ ≤ 5 минут (потолок 15). Пропущенный звонок — перезвон ≤ 5 минут.</li>
+          <li><strong>Коротко.</strong> Один шаг = одно сообщение. Никто не читает «простыни».</li>
+          <li><strong>Фото &gt; текст.</strong> Есть подходящий пример — отправляем фото, а не описываем словами.</li>
+          <li><strong>Всегда закрываем на следующий шаг.</strong> Каждое сообщение двигает к действию.</li>
+          <li><strong>Фиксируем сразу:</strong> имя, источник, что нужно — в таблицу/CRM.</li>
+        </ul>
+
+        <div class="quizcta"><p>Готовы проверить себя? Текст раздела на время теста скрывается.</p><button class="btn" onclick="startQuiz(3)">Пройти тест по разделу →</button></div>
+      </section>
+
+      <!-- 4 -->
+      <section class="section" data-i="4">
+        <div class="kicker">Раздел 4</div>
+        <h1>Первый контакт · 4 канала</h1>
+        <p class="lead">Задача первого контакта — не «ответить», а втянуть в диалог.</p>
+        <div class="bad"><span class="tag">✕ Убивает разговор</span>«Здравствуйте, чем могу помочь?»</div>
+
+        <h3>Живой трафик в салоне</h3>
+        <p>Дать осмотреться 20–30 секунд, затем:</p>
+        <div class="good"><span class="tag">✓</span>«Подбираете что-то конкретное — стол, стулья, кухню — или присматриваетесь к стилю?»</div>
+
+        <h3>Входящий звонок</h3>
+        <div class="good"><span class="tag">✓</span>«Здравствуйте, меня зовут [Имя]! Подскажите, какую мебель подбираете — для дома или объекта?»</div>
+        <p>Цель звонка — пригласить в салон / на замер или договориться о расчёте.</p>
+
+        <h3>Заявка с сайта</h3>
+        <div class="good"><span class="tag">✓ ответ ≤ 5 мин</span>«Здравствуйте! Меня зовут [Имя], салон мебельной фабрики ARTIKA в Нижнем Новгороде. Вижу вашу заявку. Подбираете мебель для кухни или в другое пространство?»</div>
+
+        <h3>Мессенджеры / соцсети</h3>
+        <div class="good"><span class="tag">✓ всегда с представлением</span>«Здравствуйте! [Имя], фабрика ARTIKA. Скажите, вы уже понимаете, что хотите, или пока присматриваетесь?»</div>
+
+        <div class="quizcta"><p>Готовы проверить себя? Текст раздела на время теста скрывается.</p><button class="btn" onclick="startQuiz(4)">Пройти тест по разделу →</button></div>
+      </section>
+
+      <!-- 5 -->
+      <section class="section" data-i="5">
+        <div class="kicker">Раздел 5</div>
+        <h1>Диагностика</h1>
+        <p class="lead">Самый важный этап. Без него любой расчёт — пальцем в небо, а цена прозвучит «дорого».</p>
+
+        <div class="quote">«Чтобы предложить точно ваше, а не лишнее — пара моментов:<br>— что именно нужно (стол, стулья, комплект, кухня)?<br>— примерные размеры?<br>— есть ориентир по бюджету?»</div>
+
+        <h2>Обязательно выяснить ещё</h2>
+        <ul>
+          <li><strong>Стиль / цвет</strong> — «покажите фото того, что нравится».</li>
+          <li><strong>Сроки</strong> — «как скоро нужно установить?»</li>
+          <li><strong>Кто принимает решение</strong> — «вы решаете сами или будете советоваться?» Если не один — сразу планируем шаг с участием второго человека.</li>
+        </ul>
+        <p>Сильные вопросы: «Что важнее — уложиться в бюджет или сделать максимально красиво?», «Это в новый ремонт или замена старой мебели?»</p>
+
+        <div class="quizcta"><p>Готовы проверить себя? Текст раздела на время теста скрывается.</p><button class="btn" onclick="startQuiz(5)">Пройти тест по разделу →</button></div>
+      </section>
+
+      <!-- 6 -->
+      <section class="section" data-i="6">
+        <div class="kicker">Раздел 6</div>
+        <h1>Прогрев примерами и ценность</h1>
+        <p class="lead">Сначала вовлекаем фотографиями похожих работ, потом показываем ценность — и только затем цена.</p>
+
+        <h2>Прогрев через примеры</h2>
+        <p>Отдельный шаг между диагностикой и ценой. Цель — вовлечь, заставить отвечать, перейти в обсуждение.</p>
+        <div class="good"><span class="tag">✓ последовательность</span>«Смотрите, вот похожие проекты под ваш запрос» <em>(отправка фото)</em> → «Можно сделать так же, но под ваши размеры» → «Как вам такой вариант — нравится или показать ещё?»</div>
+
+        <h2>Ценность — до цены</h2>
+        <p>Формула: <strong>преимущество → выгода → снятие страха</strong>.</p>
+        <table>
+          <tr><th>Преимущество</th><th>Как сказать</th><th>Снимает страх</th></tr>
+          <tr><td>Своё производство (Чебоксары)</td><td>«Не переплачиваете посредникам, контролируем качество»</td><td>«Переплачу / обманут»</td></tr>
+          <tr><td>Мебель под размер</td><td>«Делаем под ваше пространство — не нужно подгонять интерьер»</td><td>«Будет не то»</td></tr>
+          <tr><td>Сроки в договоре</td><td>«Срок прописан в договоре — не будет "ждём и ждём"»</td><td>«Сорвут сроки»</td></tr>
+          <tr><td>Гарантия от фабрики</td><td>«Вопрос решаете через наш салон в Нижнем»</td><td>«Сломается — останусь один»</td></tr>
+          <tr><td>Комплексность</td><td>«Закрываем всё — от проекта до установки»</td><td>«Запутаюсь, много хлопот»</td></tr>
+        </table>
+
+        <div class="quizcta"><p>Готовы проверить себя? Текст раздела на время теста скрывается.</p><button class="btn" onclick="startQuiz(6)">Пройти тест по разделу →</button></div>
+      </section>
+
+      <!-- 7 -->
+      <section class="section" data-i="7">
+        <div class="kicker">Раздел 7</div>
+        <h1>Цена</h1>
+        <p class="lead">Называем вилку уверенно и сразу закрываем на расчёт.</p>
+        <div class="bad"><span class="tag">✕ Слабо</span>«Столы от 70 000 рублей» — голая цифра пугает</div>
+        <div class="good"><span class="tag">✓ Сильно</span>«По цене зависит от размеров и материалов. В среднем такие проекты выходят от … до … Давайте сделаю точный расчёт под вас — это бесплатно.»</div>
+        <div class="card"><strong>Правило:</strong> цену называем без извинений, после неё не делаем паузу — сразу предлагаем расчёт. Вилку «от–до» по столам / стульям / группам / кухням берём из матрицы цен салона.</div>
+
+        <div class="quizcta"><p>Готовы проверить себя? Текст раздела на время теста скрывается.</p><button class="btn" onclick="startQuiz(7)">Пройти тест по разделу →</button></div>
+      </section>
+
+      <!-- 8 -->
+      <section class="section" data-i="8">
+        <div class="kicker">Раздел 8</div>
+        <h1>Закрытие на шаг и дожим</h1>
+        <p class="lead">Цель диалога — не «продажа сейчас», а конкретный следующий шаг с датой.</p>
+
+        <h2>Закрытие на следующий шаг</h2>
+        <div class="good"><span class="tag">✓</span>«Сделаем бесплатный расчёт. Вживую впечатление другое — приезжайте в салон / запишемся на замер. Удобнее в будни или выходной?»</div>
+        <p>Если решает не один человек — планируем созвон/встречу с участием ЛПР. <strong>Не отпускаем «обсудить с близкими» без конкретной даты.</strong></p>
+
+        <h2>Дожим без давления — сильный приём</h2>
+        <div class="quote">«У вас уже есть понимание по варианту. Обычно на этом этапе остаётся один вопрос — подходит или нет. Давайте сделаем точный расчёт, и вы спокойно примете решение.»</div>
+
+        <h2>Цепочка касаний (клиент молчит)</h2>
+        <div class="flow">+2 ч → «ещё актуально?»  ·  след. день → прислать вариант  ·  +2–3 дня → кейс/отзыв  ·  +5–7 дней → срочность/слот  ·  +10–14 дней → «закрываю или позже?» → реактивация</div>
+
+        <div class="quizcta"><p>Готовы проверить себя? Текст раздела на время теста скрывается.</p><button class="btn" onclick="startQuiz(8)">Пройти тест по разделу →</button></div>
+      </section>
+
+      <!-- 9 -->
+      <section class="section" data-i="9">
+        <div class="kicker">Раздел 9</div>
+        <h1>Работа с возражениями</h1>
+        <p class="lead">Никогда не оправдываться и не спорить. Сначала понять → задать вопрос → вернуть ценность.</p>
+
+        <h3>«Дорого»</h3>
+        <div class="card">
+          <p>1. Изолировать: «Дорого по сравнению с чем — с другим предложением или просто выше, чем планировали?»</p>
+          <p>2. Уточнить состав: «А там входит замер, доставка, сборка, фурнитура?»</p>
+          <p>3. Вернуть ценность: «Важно сравнивать не цену, а что в неё входит.»</p>
+          <p>4. <strong>Только если упирается в бюджет</strong> → пересборка материалов.</p>
+        </div>
+
+        <h3>Остальные</h3>
+        <ul>
+          <li><strong>«Подумаю»:</strong> «Что именно обдумать — цену, вариант или в целом?»</li>
+          <li><strong>«Ещё смотрим»:</strong> «Сделаю расчёт под ваш размер — будет с чем сравнивать.»</li>
+          <li><strong>«Долго»:</strong> «Срок в договоре. Своя фабрика в Чебоксарах, рядом — а не фура с другого конца страны.»</li>
+          <li><strong>«Какая гарантия»:</strong> «Гарантия от фабрики; вопрос решаете через наш салон в Нижнем.»</li>
+          <li><strong>«А если не понравится»:</strong> «До запуска согласовываем проект. В производство уходит только то, что вы одобрили.»</li>
+          <li><strong>«Пришлите каталог»:</strong> «Пришлю под вас — скажите размеры и стиль, иначе прайс запутает.»</li>
+          <li><strong>«У конкурента дешевле»:</strong> «Сравним честно: что у них входит в цену и какой срок?»</li>
+        </ul>
+
+        <div class="quizcta"><p>Готовы проверить себя? Текст раздела на время теста скрывается.</p><button class="btn" onclick="startQuiz(9)">Пройти тест по разделу →</button></div>
+      </section>
+
+      <!-- 10 -->
+      <section class="section" data-i="10">
+        <div class="kicker">Раздел 10</div>
+        <h1>Сделка, запреты, образец диалога</h1>
+
+        <h2>Закрытие на сделку — денежный шаг</h2>
+        <div class="good"><span class="tag">✓</span>«Делаем проект → согласовываем → запускаем в производство. Чтобы зафиксировать цену и место в производстве, вносим предоплату — и я ставлю заказ в работу. Немного приятного ожидания — и привезём в ваш интерьер.»</div>
+
+        <h2>Что запрещено</h2>
+        <p><span class="pill">«Ну вообще…»</span><span class="pill">«Наверное…»</span><span class="pill">«Не знаю»</span><span class="pill">«Смотрите сами»</span><span class="pill">«Подумаете — пишите»</span><span class="pill">цена без диагностики</span><span class="pill">спорить</span><span class="pill">обращение без имени</span><span class="pill">скинуть каталог и исчезнуть</span></p>
+
+        <h2>Образец сквозного диалога</h2>
+        <div class="card" style="font-style:italic;">
+          — Здравствуйте! Подбираете стол, стулья или нужен полный комплект?<br>
+          — Уже есть понимание или присматриваетесь?<br>
+          — Тогда уточним пару моментов: что нужно, размеры, бюджет.<br>
+          — Смотрите, вот похожие варианты <em>(фото)</em>.<br>
+          — Делаем под ваш размер, можно адаптировать под бюджет.<br>
+          — По цене примерно от …, но лучше посчитать точно.<br>
+          — Давайте сделаем расчёт — это бесплатно и ни к чему не обязывает.<br>
+          — Могу сегодня подготовить вариант под ваш запрос. Удобно?
+        </div>
+
+        <div class="quizcta"><p>Готовы проверить себя? Текст раздела на время теста скрывается.</p><button class="btn" onclick="startQuiz(10)">Пройти тест по разделу →</button></div>
+        <div class="footer">ARTIKA · Плейбук продаж салона в Нижнем Новгороде. Внутренний документ для обучения менеджеров.</div>
+      </section>
+    </div><!-- /content -->
+
+    <div class="quizview" id="quizview"></div>
+
+    </div><!-- /inner -->
+  </main>
+</div>
+
+<script>
+const QUIZZES = {
+  1:[
+    {q:"Что на самом деле продаёт менеджер ARTIKA?",o:["Мебель по выгодной цене","Спокойствие и готовое решение под пространство клиента","Самые дешёвые столы в городе"],c:1,e:"Клиент покупает спокойствие: «для меня всё сделают красиво, удобно и без ошибок»."},
+    {q:"Как правильно подать сегмент?",o:["«У нас недорого»","«Оптимальный баланс цены и качества без переплаты за бренд»","«Мы премиум-фабрика»"],c:1,e:"Средний/средний+. «Недорого» обесценивает, «премиум» отпугнёт."},
+    {q:"Где находится наше производство?",o:["В Нижнем Новгороде","В Чебоксарах (рядом, Поволжье); в НН — салон, замер, доставка","В Китае, мы перепродаём"],c:1,e:"Фабрика в Чебоксарах, в Нижнем — салон и сервис. Это и есть козырь: своя фабрика без посредников."}
+  ],
+  2:[
+    {q:"Клиент перегружен ремонтом и боится ошибиться. Какой тип и подход?",o:["«Сравниватель» — давить ценой","«Ремонтник» — упрощать и вести за руку","«Вдохновлённый» — заваливать фото"],c:1,e:"«Ремонтник» → упрощение и помощь в выборе."},
+    {q:"Что из этого — НЕ страх клиента, который мы снимаем?",o:["«Будет не так, как на картинке»","«Сорвут сроки»","«Магазин слишком далеко от центра»"],c:2,e:"Четыре страха: обманут, будет не так, сорвут сроки, цена вырастет."},
+    {q:"Как отвечать клиенту по тону?",o:["Строго по корпоративному скрипту","Как близкому человеку — честно и по-человечески","Максимально формально и сухо"],c:1,e:"Отвечаем так, как ответили бы родственнику или другу."}
+  ],
+  3:[
+    {q:"За сколько отвечаем на новый лид?",o:["В течение дня","≤ 5 минут (потолок 15)","Когда освободимся"],c:1,e:"Скорость — главный рычаг в переписке."},
+    {q:"Сколько действий в одном сообщении?",o:["Чем больше, тем лучше","Один шаг = одно сообщение","Всё ТЗ сразу одним блоком"],c:1,e:"Коротко, один шаг за раз — простыни не читают."},
+    {q:"Что важнее в переписке?",o:["Подробный текст","Фото/примеры","Ссылка на каталог"],c:1,e:"Фото > текст: пример вовлекает сильнее описания."}
+  ],
+  4:[
+    {q:"Какой первый ответ убивает разговор?",o:["«Подбираете конкретное или присматриваетесь?»","«Здравствуйте, чем могу помочь?»","«Какую мебель подбираете — для дома или объекта?»"],c:1,e:"«Чем могу помочь» провоцирует «спасибо, я сам». Нужен втягивающий вопрос."},
+    {q:"Что обязательно в первом сообщении в мессенджере?",o:["Сразу цена","Представиться (от кого сообщение)","Ссылка на сайт"],c:1,e:"Всегда фиксируем, от кого сообщение, и представляемся."},
+    {q:"Цель первого контакта?",o:["Сразу продать","Втянуть в диалог и перейти к диагностике","Отправить прайс"],c:1,e:"Не «ответить», а втянуть в диалог."}
+  ],
+  5:[
+    {q:"Почему диагностика — самый важный этап?",o:["Чтобы потянуть время","Без неё расчёт неточен, а цена прозвучит «дорого»","Так требует начальство"],c:1,e:"Сначала понимаем потребность — потом ценность и цена."},
+    {q:"Какой вопрос обязателен, кроме что/размеры/бюджет?",o:["«Кто принимает решение?»","«Какая у вас зарплата?»","«Почему так долго выбираете?»"],c:0,e:"Если решает не один — планируем шаг с участием ЛПР, иначе клиент «уйдёт советоваться»."},
+    {q:"Как задавать вопросы?",o:["Допросом, списком в лоб","Короткими блоками, по-человечески","Вообще не задавать, сразу предлагать"],c:1,e:"Короткие блоки структурируют клиента и поднимают экспертность."}
+  ],
+  6:[
+    {q:"Зачем нужен «прогрев примерами»?",o:["Чтобы заполнить паузу","Вовлечь, заставить отвечать, перейти в обсуждение","Чтобы не называть цену"],c:1,e:"Фото похожих работ вовлекают и двигают к обсуждению."},
+    {q:"Когда озвучиваем цену?",o:["Сразу при первом контакте","Только после показа ценности","Никогда, ждём клиента"],c:1,e:"Ценность — до цены, иначе цену не с чем сравнить."},
+    {q:"Формула подачи ценности?",o:["Цена → скидка → давление","Преимущество → выгода → снятие страха","Перечислить все характеристики"],c:1,e:"Каждое преимущество переводим в выгоду и привязываем к страху клиента."}
+  ],
+  7:[
+    {q:"Как правильно назвать цену?",o:["«Столы от 70 000»","«Зависит от размеров и материалов, в среднем от … до …, посчитаю точно»","«Это дорого, но качественно»"],c:1,e:"Вилка + предложение точного расчёта. Голая цифра пугает."},
+    {q:"Что делаем сразу после цены?",o:["Берём паузу, ждём реакции","Закрываем на бесплатный расчёт","Извиняемся за стоимость"],c:1,e:"После цены — сразу следующий шаг, без паузы."}
+  ],
+  8:[
+    {q:"Главная цель диалога?",o:["Сразу получить оплату","Конкретный следующий шаг с датой (расчёт/визит/замер)","Просто ответить на вопросы"],c:1,e:"Не «продажа сейчас», а зафиксированный следующий шаг."},
+    {q:"Клиент хочет «обсудить с близкими». Как правильно?",o:["Отпустить, сказать «пишите»","Запланировать созвон/встречу с участием ЛПР и датой","Настоять на оплате сейчас"],c:1,e:"Не отпускаем без конкретной даты следующего касания — иначе слив."},
+    {q:"В чём сила приёма «дожим без давления»?",o:["Давим на жалость","Сводим к одному вопросу «подходит или нет» и предлагаем расчёт","Угрожаем повышением цены"],c:1,e:"«Остаётся один вопрос — подходит или нет» снимает страх решения."}
+  ],
+  9:[
+    {q:"Первая реакция на «дорого»?",o:["Сразу дать скидку","Не оправдываться: «дорого по сравнению с чем?» и уточнить, что входит","Согласиться, что дорого"],c:1,e:"Сначала изолируем и защищаем ценность; скидка/пересборка — в крайнем случае."},
+    {q:"Клиент: «у конкурента дешевле». Что отвечаем?",o:["«Значит, идите к ним»","«Сравним честно: что у них входит в цену и какой срок?»","«Мы тоже снизим, не вопрос»"],c:1,e:"Переводим разговор с цены на состав и условия."},
+    {q:"«Пришлите просто каталог/прайс» — лучшее действие?",o:["Скинуть общий прайс и ждать","Прислать подборку под клиента, уточнив размеры и стиль","Отказать"],c:1,e:"Голый прайс запутает; подборка под запрос продолжает диалог."}
+  ],
+  10:[
+    {q:"Что фиксирует сделку (денежный шаг)?",o:["Устное «беру»","Предоплата + договор → запуск в производство","Сохранение в избранное"],c:1,e:"«Зарезервируем» — ещё не сделка. Сделка = предоплата и договор."},
+    {q:"Какая фраза запрещена?",o:["«Сейчас сориентирую»","«Ну вообще… наверное… не знаю»","«Покажу варианты»"],c:1,e:"Неуверенные фразы убивают доверие."},
+    {q:"Чем заканчивается образцовый диалог?",o:["«Подумаете — напишите»","Предложением сделать бесплатный расчёт сегодня","Отправкой прайса без комментариев"],c:1,e:"Всегда закрываем на конкретный следующий шаг — расчёт."}
+  ]
+};
+const TITLES = {1:"Установка и козырь",2:"Клиент: типы и страхи",3:"Воронка и правила",4:"Первый контакт",5:"Диагностика",6:"Прогрев и ценность",7:"Цена",8:"Закрытие и дожим",9:"Возражения",10:"Сделка и образец"};
+const TOTAL = 10;
+const passed = new Set();
+
+// nav
+const navlinks = document.getElementById('navlinks');
+for(let i=1;i<=TOTAL;i++){
+  const a=document.createElement('a');
+  a.dataset.target=i;
+  a.innerHTML=`<span class="num"><span>${i}</span></span>${TITLES[i]}`;
+  a.onclick=()=>show(i);
+  navlinks.appendChild(a);
+}
+function setActiveNav(i){document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('active', a.dataset.target==i));}
+
+// content view
+function show(i){
+  document.getElementById('quizview').classList.remove('active');
+  document.getElementById('content').style.display='';
+  document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active', s.dataset.i==i));
+  setActiveNav(i);
+  window.scrollTo(0,0);
+  if(window.innerWidth<=880) closeNav();
+}
+
+// quiz as a separate page
+function startQuiz(i){
+  const data=QUIZZES[i];
+  let html=`<a class="backlink" onclick="show(${i})">← Вернуться к разделу</a>`;
+  html+=`<div class="kicker">Тест · Раздел ${i}</div><h1>${TITLES[i]}</h1>`;
+  html+=`<div class="warn">Текст раздела скрыт — отвечайте по памяти. Это проверка, что материал усвоен.</div>`;
+  html+=`<div class="quiz" id="quizbox">`;
+  data.forEach((item,qi)=>{
+    html+=`<div class="q" data-correct="${item.c}"><p class="q-text">${qi+1}. ${item.q}</p>`;
+    item.o.forEach((opt,oi)=>{
+      html+=`<label class="opt"><input type="radio" name="q${i}_${qi}" value="${oi}">${opt}</label>`;
+    });
+    html+=`<p class="explain">${item.e}</p></div>`;
+  });
+  html+=`</div>`;
+  html+=`<p class="result" id="qresult" style="display:none"></p>`;
+  html+=`<button class="btn" id="checkbtn" onclick="checkQuiz(${i})">Проверить ответы</button>`;
+  html+=`<div class="afterbtns" id="afterbtns"><a class="btn ghost" onclick="show(${i})">← К разделу</a>`;
+  if(i<TOTAL) html+=`<a class="btn" onclick="show(${i+1})">Следующий раздел →</a>`;
+  html+=`</div>`;
+
+  const qv=document.getElementById('quizview');
+  qv.innerHTML=html;
+  document.getElementById('content').style.display='none';
+  qv.classList.add('active');
+  setActiveNav(i);
+  window.scrollTo(0,0);
+  if(window.innerWidth<=880) closeNav();
+}
+
+function checkQuiz(i){
+  const qs=document.querySelectorAll('#quizbox .q'); let correct=0;
+  qs.forEach(q=>{
+    const right=q.dataset.correct;
+    const checked=q.querySelector('input:checked');
+    q.querySelectorAll('.opt').forEach(l=>l.classList.remove('correct','wrong'));
+    q.querySelector('.explain').classList.add('show');
+    if(checked){
+      const lbl=checked.closest('.opt');
+      if(checked.value===right){lbl.classList.add('correct');correct++;}
+      else{lbl.classList.add('wrong'); q.querySelectorAll('.opt')[right].classList.add('correct');}
+    } else { q.querySelectorAll('.opt')[right].classList.add('correct'); }
+  });
+  const res=document.getElementById('qresult');
+  const ok=correct===qs.length;
+  res.style.display='block';
+  res.textContent=`Результат: ${correct} из ${qs.length}` + (ok?" — отлично, раздел пройден!":" — повторите раздел и попробуйте снова.");
+  res.className='result '+(ok?'ok':'no');
+  document.getElementById('checkbtn').style.display='none';
+  document.getElementById('afterbtns').classList.add('show');
+  if(ok){passed.add(i); const a=document.querySelector(`.nav a[data-target="${i}"]`); if(a)a.classList.add('done');}
+  document.getElementById('pcount').textContent=passed.size;
+}
+
+// mobile nav
+function toggleNav(){document.getElementById('nav').classList.toggle('open');document.getElementById('backdrop').classList.toggle('show');}
+function closeNav(){document.getElementById('nav').classList.remove('open');document.getElementById('backdrop').classList.remove('show');}
+
+show(1);
+</script>
+</body>
+</html>
